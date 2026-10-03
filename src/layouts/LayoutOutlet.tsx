@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
-import { Footer } from '@/components/navigation/Footer';
 
 interface LayoutOutletProps extends BoxProps {
   children: React.ReactNode;
@@ -14,9 +13,8 @@ interface LayoutOutletProps extends BoxProps {
  * Standardized Layout Outlet Engine Component
  * Implements the Layout Outlet pattern across all TVSD enterprise layouts:
  * 1. Hosts the dynamic page content in the main outlet viewport
- * 2. Guarantees flex-grow so footers are never orphaned
+ * 2. Independent scroll container (flex: 1, overflowY: 'auto') between fixed toolbar and fixed footer
  * 3. Enforces consistent max-width, responsive margins, and padding
- * 4. Mounts the unified Enterprise Footer at the outlet base
  */
 export const LayoutOutlet: React.FC<LayoutOutletProps> = ({
   children,
@@ -31,17 +29,17 @@ export const LayoutOutlet: React.FC<LayoutOutletProps> = ({
       id="tvsd-layout-outlet"
       sx={{
         flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
         width: '100%',
         minWidth: 0,
-        minHeight: '100%',
-        position: 'relative',
+        minHeight: 0,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
         ...sx,
       }}
       {...rest}
     >
-      {/* Content Container */}
       <Box
         sx={{
           flex: 1,
@@ -55,9 +53,6 @@ export const LayoutOutlet: React.FC<LayoutOutletProps> = ({
       >
         {children}
       </Box>
-
-      {/* Unified Enterprise Footer */}
-      <Footer />
     </Box>
   );
 };
