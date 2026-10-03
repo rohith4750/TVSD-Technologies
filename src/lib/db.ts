@@ -158,8 +158,7 @@ export async function initializeDatabase(): Promise<boolean> {
       client.release();
     }
   } catch (err) {
-    // If PostgreSQL service is not running locally, seamlessly fallback to persistent in-memory repository
-    isDbInitialized = true;
+    console.error('[TVSD Database] PostgreSQL connection error:', (err as Error).message);
     return false;
   }
 }
