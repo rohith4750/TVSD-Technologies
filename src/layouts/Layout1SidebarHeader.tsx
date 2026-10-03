@@ -4,6 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Sidebar } from '@/components/navigation/Sidebar';
 import { Header } from '@/components/navigation/Header';
+import { LayoutOutlet } from './LayoutOutlet';
 
 interface LayoutProps {
   onOpenPreferences: () => void;
@@ -19,21 +20,12 @@ export const Layout1SidebarHeader: React.FC<LayoutProps> = ({
       {/* Collapsible Left Sidebar */}
       <Sidebar />
 
-      {/* Main Content Area */}
+      {/* Main Content Area with Header and Outlet */}
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         <Header onOpenPreferences={onOpenPreferences} />
-        <Box
-          component="main"
-          sx={{
-            flex: 1,
-            p: { xs: 2, sm: 2.5, md: 3.5 },
-            maxWidth: 1600,
-            width: '100%',
-            mx: 'auto',
-          }}
-        >
+        <LayoutOutlet maxWidth={1600}>
           {children}
-        </Box>
+        </LayoutOutlet>
       </Box>
     </Box>
   );

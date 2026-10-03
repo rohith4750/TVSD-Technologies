@@ -8,6 +8,7 @@ import { usePreferencesStore } from '@/store';
 import { IndustryPreset } from '@/types';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
+import { LayoutOutlet } from '@/layouts/LayoutOutlet';
 
 interface HybridNavProps {
   onOpenPreferences?: () => void;
@@ -91,11 +92,11 @@ export const HybridNav: React.FC<HybridNavProps> = ({ onOpenPreferences, childre
       </Box>
 
       {/* Main Body with Sidebar + Content */}
-      <Box sx={{ display: 'flex', flex: 1 }}>
+      <Box sx={{ display: 'flex', flex: 1, minWidth: 0 }}>
         <Sidebar />
-        <Box component="main" sx={{ flex: 1, p: { xs: 2, md: 3 }, overflowX: 'hidden' }}>
+        <LayoutOutlet maxWidth={1600}>
           {children}
-        </Box>
+        </LayoutOutlet>
       </Box>
     </Box>
   );

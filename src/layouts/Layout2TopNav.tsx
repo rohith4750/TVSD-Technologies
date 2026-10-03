@@ -3,6 +3,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { TopNav } from '@/components/navigation/TopNav';
+import { LayoutOutlet } from './LayoutOutlet';
 
 interface LayoutProps {
   onOpenPreferences: () => void;
@@ -16,18 +17,9 @@ export const Layout2TopNav: React.FC<LayoutProps> = ({
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <TopNav onOpenPreferences={onOpenPreferences} />
-      <Box
-        component="main"
-        sx={{
-          flex: 1,
-          p: { xs: 2, sm: 2.5, md: 3.5 },
-          maxWidth: 1600,
-          width: '100%',
-          mx: 'auto',
-        }}
-      >
+      <LayoutOutlet maxWidth={1600}>
         {children}
-      </Box>
+      </LayoutOutlet>
     </Box>
   );
 };

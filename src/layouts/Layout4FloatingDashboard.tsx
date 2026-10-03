@@ -3,6 +3,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { FloatingNav } from '@/components/navigation/FloatingNav';
+import { LayoutOutlet } from './LayoutOutlet';
 
 interface LayoutProps {
   onOpenPreferences: () => void;
@@ -16,19 +17,9 @@ export const Layout4FloatingDashboard: React.FC<LayoutProps> = ({
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <FloatingNav onOpenPreferences={onOpenPreferences} />
-      <Box
-        component="main"
-        sx={{
-          flex: 1,
-          px: { xs: 2, sm: 3, md: 4 },
-          pb: 6,
-          maxWidth: 1400,
-          width: '100%',
-          mx: 'auto',
-        }}
-      >
+      <LayoutOutlet maxWidth={1400} sx={{ pt: 2 }}>
         {children}
-      </Box>
+      </LayoutOutlet>
     </Box>
   );
 };
