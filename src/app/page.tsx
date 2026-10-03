@@ -1,282 +1,310 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import { alpha, useTheme } from '@mui/material/styles';
-import { useQuery } from '@tanstack/react-query';
-import { orderService, productService, userService } from '@/api/api';
 import { usePreferencesStore } from '@/store';
-import {
-  AppBreadcrumbs,
-  AppButton,
-  AppCard,
-  AppStatsCard,
-  AppStatusBadge,
-  AppTable
-} from '@/components/ui';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
+import { THEMES_LIST } from '@/themes';
+import { AppButton } from '@/components/ui';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
-import Link from 'next/link';
+import StorageOutlinedIcon from '@mui/icons-material/StorageOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 
-export default function DashboardPage() {
+export default function LandingPage() {
   const theme = useTheme();
-  const { layout, theme: currentTheme, industry, setIndustry } = usePreferencesStore();
-
-  const { data: users = [] } = useQuery({
-    queryKey: ['users'],
-    queryFn: userService.getAll,
-  });
-
-  const { data: products = [] } = useQuery({
-    queryKey: ['products'],
-    queryFn: productService.getAll,
-  });
-
-  const { data: orders = [] } = useQuery({
-    queryKey: ['orders'],
-    queryFn: orderService.getAll,
-  });
-
-  const lowStockCount = products.filter((p) => p.status === 'LOW_STOCK' || p.status === 'OUT_OF_STOCK').length;
-  const totalRevenue = orders
-    .filter((o) => o.paymentStatus === 'PAID')
-    .reduce((sum, o) => sum + o.totalAmount, 0);
+  const { layout, setLayout, theme: currentTheme, setTheme } = usePreferencesStore();
 
   return (
-    <Box className="fade-in">
-      {/* Breadcrumbs */}
-      <AppBreadcrumbs items={[{ label: 'Executive Command Center', active: true }]} />
-
-      {/* Hero Welcome Banner */}
-      <Card
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Top Navigation */}
+      <Box
+        component="header"
         sx={{
-          p: { xs: 2.5, md: 3.5 },
-          mb: 3.5,
-          borderRadius: 3.5,
-          background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, ${alpha(
-            theme.palette.secondary.main,
-            0.08
-          )} 100%)`,
-          border: `1px solid ${alpha(theme.palette.primary.main, 0.25)}`,
-          position: 'relative',
-          overflow: 'hidden',
+          height: 72,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: { xs: 2.5, md: 6 },
+          backgroundColor: alpha(theme.palette.background.paper, 0.8),
+          backdropFilter: 'blur(16px)',
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          position: 'sticky',
+          top: 0,
+          zIndex: 1100,
         }}
       >
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-          <Box sx={{ maxWidth: 640 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <AutoAwesomeOutlinedIcon sx={{ color: 'primary.main', fontSize: 20 }} />
-              <Typography variant="overline" sx={{ fontWeight: 700, color: 'primary.main', letterSpacing: '0.08em' }}>
-                Next.js Enterprise Monorepo Architecture
-              </Typography>
-            </Box>
-            <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: '-0.02em', mb: 1 }}>
-              Unified Business Engine
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
-              A single reusable foundation running multiple enterprise applications (ERP, CRM, Healthcare, Logistics, HRMS) with real-time dynamic layout and theme orchestration.
-            </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Box
+            sx={{
+              width: 38,
+              height: 38,
+              borderRadius: 2.5,
+              background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#ffffff',
+              fontWeight: 800,
+              fontSize: '1.1rem',
+            }}
+          >
+            T
           </Box>
-
-          {/* Quick Engine Status Badges */}
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <Box
-              sx={{
-                p: 1.5,
-                borderRadius: 2,
-                backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                backdropFilter: 'blur(8px)',
-                border: `1px solid ${theme.palette.divider}`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
-            >
-              <LayersOutlinedIcon sx={{ color: 'primary.main', fontSize: 22 }} />
-              <Box>
-                <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                  Active Layout
-                </Typography>
-                <Typography variant="body2" sx={{ fontWeight: 700, textTransform: 'uppercase' }}>
-                  {layout}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                p: 1.5,
-                borderRadius: 2,
-                backgroundColor: alpha(theme.palette.background.paper, 0.8),
-                backdropFilter: 'blur(8px)',
-                border: `1px solid ${theme.palette.divider}`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-              }}
-            >
-              <PaletteOutlinedIcon sx={{ color: 'secondary.main', fontSize: 22 }} />
-              <Box>
-                <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                  Active Theme
-                </Typography>
-                <Typography variant="body2" sx={{ fontWeight: 700, textTransform: 'capitalize' }}>
-                  {currentTheme.replace('-', ' ')}
-                </Typography>
-              </Box>
-            </Box>
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1, letterSpacing: '-0.01em' }}>
+              TVSD Technologies
+            </Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem', fontWeight: 600 }}>
+              Enterprise Platform
+            </Typography>
           </Box>
         </Box>
-      </Card>
 
-      {/* KPI Stats Grid */}
-      <Grid container spacing={2.5} sx={{ mb: 3.5 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <AppStatsCard
-            title="Total Settled Revenue"
-            value={`$${(totalRevenue / 1000).toFixed(1)}k`}
-            subtitle="from paid orders"
-            change={{ value: '18.4%', isPositive: true }}
-            icon={<AttachMoneyIcon fontSize="small" />}
-            color="success"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <AppStatsCard
-            title="Active Workforce"
-            value={users.length}
-            subtitle="enterprise accounts"
-            change={{ value: '12 new', isPositive: true }}
-            icon={<PeopleAltOutlinedIcon fontSize="small" />}
-            color="primary"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <AppStatsCard
-            title="Pending Orders"
-            value={orders.filter((o) => o.fulfillmentStatus === 'PROCESSING').length}
-            subtitle="in fulfillment queue"
-            change={{ value: '4.2%', isPositive: true }}
-            icon={<ShoppingCartOutlinedIcon fontSize="small" />}
-            color="info"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <AppStatsCard
-            title="Stock Warnings"
-            value={lowStockCount}
-            subtitle="requires procurement"
-            change={{ value: 'Critical', isPositive: false }}
-            icon={<WarningAmberOutlinedIcon fontSize="small" />}
-            color="warning"
-          />
-        </Grid>
-      </Grid>
-
-      {/* Domain Preset Switcher Bar */}
-      <AppCard
-        title="Business Application Domain Preset"
-        subheader="Switch business vertical on the fly without rewriting shared UI, layouts, or state"
-        sx={{ mb: 3.5 }}
-      >
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-          {[
-            { id: 'erp', label: 'Enterprise ERP', desc: 'Procurement, ledger, logistics' },
-            { id: 'crm', label: 'Client CRM', desc: 'Leads, sales, contact velocity' },
-            { id: 'healthcare', label: 'Healthcare & EHR', desc: 'Clinical telemetry, bed capacity' },
-            { id: 'hotel', label: 'Hotel Management', desc: 'Suites, guest concierge, POS' },
-            { id: 'hrms', label: 'HRMS Workforce', desc: 'Payroll, talent, leaves' },
-            { id: 'inventory', label: 'Inventory Hub', desc: 'Depot aisles, stock tracking' },
-          ].map((item) => {
-            const isSelected = industry === item.id;
-
-            return (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* Quick Theme Selector */}
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 0.75 }}>
+            {THEMES_LIST.map((th) => (
               <Box
-                key={item.id}
-                onClick={() => setIndustry(item.id as any)}
+                key={th.id}
+                onClick={() => setTheme(th.id)}
+                title={th.name}
                 sx={{
-                  flex: { xs: '1 1 100%', sm: '1 1 200px' },
-                  p: 2,
-                  borderRadius: 2.5,
+                  width: 22,
+                  height: 22,
+                  borderRadius: '50%',
+                  backgroundColor: th.previewColors.primary,
                   cursor: 'pointer',
-                  border: `2px solid ${
-                    isSelected ? theme.palette.primary.main : theme.palette.divider
-                  }`,
-                  backgroundColor: isSelected
-                    ? alpha(theme.palette.primary.main, 0.08)
-                    : 'transparent',
-                  transition: 'all 0.2s ease',
-                  '&:hover': {
-                    borderColor: theme.palette.primary.main,
-                  },
+                  border: currentTheme === th.id ? `2px solid ${theme.palette.primary.contrastText}` : '2px solid transparent',
+                  boxShadow: currentTheme === th.id ? `0 0 0 2px ${theme.palette.primary.main}` : 'none',
+                  transition: 'all 0.15s ease',
+                  '&:hover': { transform: 'scale(1.15)' },
                 }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: isSelected ? 'primary.main' : 'text.primary' }}>
-                    {item.label}
-                  </Typography>
-                  {isSelected && <Chip label="Active" size="small" color="primary" sx={{ height: 18, fontSize: '0.65rem' }} />}
-                </Box>
-                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                  {item.desc}
-                </Typography>
-              </Box>
-            );
-          })}
-        </Box>
-      </AppCard>
+              />
+            ))}
+          </Box>
 
-      {/* Recent Orders Overview */}
-      <AppCard
-        title="Live Orders Pipeline"
-        subheader="Real-time order statuses and customer fulfillment"
-        action={
-          <Link href="/orders" style={{ textDecoration: 'none' }}>
-            <AppButton variant="outlined" size="small">
-              View All Orders
+          <Link href="/login" style={{ textDecoration: 'none' }}>
+            <AppButton variant="outlined" size="small" startIcon={<LockOpenOutlinedIcon fontSize="small" />}>
+              Sign In
             </AppButton>
           </Link>
-        }
-        noPadding
-      >
-        <AppTable
-          columns={[
-            { id: 'orderNumber', label: 'Order #', minWidth: 140 },
-            { id: 'customerName', label: 'Customer', minWidth: 200 },
-            {
-              id: 'totalAmount',
-              label: 'Amount',
-              align: 'right',
-              render: (row) => `$${row.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
-            },
-            {
-              id: 'paymentStatus',
-              label: 'Payment',
-              render: (row) => <AppStatusBadge status={row.paymentStatus} />,
-            },
-            {
-              id: 'fulfillmentStatus',
-              label: 'Fulfillment',
-              render: (row) => <AppStatusBadge status={row.fulfillmentStatus} />,
-            },
-            {
-              id: 'orderDate',
-              label: 'Date',
-              render: (row) => new Date(row.orderDate).toLocaleDateString(),
-            },
-          ]}
-          data={orders.slice(0, 5)}
+
+          <Link href="/dashboard" style={{ textDecoration: 'none' }}>
+            <AppButton variant="contained" size="small" endIcon={<ArrowForwardOutlinedIcon fontSize="small" />}>
+              Open Dashboard
+            </AppButton>
+          </Link>
+        </Box>
+      </Box>
+
+      {/* Hero Section */}
+      <Container maxWidth="lg" sx={{ pt: { xs: 8, md: 12 }, pb: { xs: 8, md: 10 }, textAlign: 'center' }}>
+        <Chip
+          icon={<AutoAwesomeOutlinedIcon sx={{ fontSize: 16 }} />}
+          label="Next.js Enterprise Monorepo Platform"
+          color="primary"
+          variant="outlined"
+          sx={{ mb: 3, fontWeight: 600, py: 0.5, px: 1, borderRadius: 99 }}
         />
-      </AppCard>
+
+        <Typography
+          variant="h2"
+          sx={{
+            fontWeight: 800,
+            letterSpacing: '-0.03em',
+            fontSize: { xs: '2.4rem', sm: '3.4rem', md: '4.2rem' },
+            lineHeight: 1.15,
+            mb: 2.5,
+          }}
+        >
+          One Reusable Foundation.{' '}
+          <Box
+            component="span"
+            sx={{
+              background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Infinite Business Apps.
+          </Box>
+        </Typography>
+
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'text.secondary',
+            maxWidth: 760,
+            mx: 'auto',
+            mb: 5,
+            fontWeight: 400,
+            lineHeight: 1.6,
+            fontSize: { xs: '1rem', md: '1.2rem' },
+          }}
+        >
+          Launch ERP, CRM, Healthcare, and HRMS applications from a unified, enterprise-grade architecture. Built with Next.js, Material UI, Zustand, and real-time layout & theme engines.
+        </Typography>
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', mb: 8 }}>
+          <Link href="/dashboard" style={{ textDecoration: 'none' }}>
+            <AppButton
+              variant="gradient"
+              size="large"
+              endIcon={<ArrowForwardOutlinedIcon />}
+              sx={{ px: 4, py: 1.5, fontSize: '1rem', borderRadius: 3 }}
+            >
+              Launch Command Center
+            </AppButton>
+          </Link>
+          <Link href="/users" style={{ textDecoration: 'none' }}>
+            <AppButton
+              variant="outlined"
+              size="large"
+              sx={{ px: 3.5, py: 1.5, fontSize: '1rem', borderRadius: 3 }}
+            >
+              User Management CRUD
+            </AppButton>
+          </Link>
+        </Box>
+
+        {/* Database Status Ribbon */}
+        <Card
+          sx={{
+            maxWidth: 820,
+            mx: 'auto',
+            p: 2.5,
+            borderRadius: 3,
+            backgroundColor: alpha(theme.palette.background.paper, 0.75),
+            backdropFilter: 'blur(12px)',
+            border: `1px solid ${theme.palette.divider}`,
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            gap: 2,
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.05)',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, textAlign: 'left' }}>
+            <StorageOutlinedIcon sx={{ color: 'primary.main', fontSize: 28 }} />
+            <Box>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, display: 'block' }}>
+                POSTGRESQL DATABASE
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 700 }}>
+                Database: <Box component="span" sx={{ color: 'primary.main' }}>tvsd</Box>
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, textAlign: 'left' }}>
+            <LayersOutlinedIcon sx={{ color: 'secondary.main', fontSize: 28 }} />
+            <Box>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, display: 'block' }}>
+                DYNAMIC LAYOUT ENGINE
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 700, textTransform: 'uppercase' }}>
+                {layout} Active
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, textAlign: 'left' }}>
+            <PaletteOutlinedIcon sx={{ color: 'success.main', fontSize: 28 }} />
+            <Box>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, display: 'block' }}>
+                ENTERPRISE THEME
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: 700, textTransform: 'capitalize' }}>
+                {currentTheme.replace('-', ' ')}
+              </Typography>
+            </Box>
+          </Box>
+        </Card>
+      </Container>
+
+      {/* Architecture Highlights Grid */}
+      <Box sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.4), py: 10, borderTop: `1px solid ${theme.palette.divider}` }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: 7 }}>
+            <Typography variant="overline" sx={{ fontWeight: 700, color: 'primary.main', letterSpacing: '0.08em' }}>
+              Built For Enterprise Scale
+            </Typography>
+            <Typography variant="h3" sx={{ fontWeight: 800, mt: 0.5, letterSpacing: '-0.02em' }}>
+              Engineered Without Rebuilding Common Parts
+            </Typography>
+          </Box>
+
+          <Grid container spacing={3.5}>
+            {[
+              {
+                icon: <LayersOutlinedIcon sx={{ fontSize: 32, color: 'primary.main' }} />,
+                title: '5 Dynamic Layout Engines',
+                desc: 'Instantly toggle between Sidebar+Header, Top Nav, Mini Icon Rail, Floating SaaS Dock, and Hybrid Dual-Nav without touching page logic.',
+              },
+              {
+                icon: <PaletteOutlinedIcon sx={{ fontSize: 32, color: 'secondary.main' }} />,
+                title: '5 Corporate Themes',
+                desc: 'Corporate Light, Corporate Dark, Minimal, Healthcare Blue, and Modern Gradient, applied with full Material UI and SCSS synchrony.',
+              },
+              {
+                icon: <SpeedOutlinedIcon sx={{ fontSize: 32, color: 'success.main' }} />,
+                title: 'Clean Single package.json',
+                desc: 'All enterprise capabilities running from a streamlined codebase without nested package clutter, optimized for rapid delivery.',
+              },
+            ].map((f, i) => (
+              <Grid item xs={12} md={4} key={i}>
+                <Card
+                  sx={{
+                    p: 4,
+                    height: '100%',
+                    borderRadius: 3.5,
+                    border: `1px solid ${theme.palette.divider}`,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                    transition: 'transform 0.2s ease',
+                    '&:hover': { transform: 'translateY(-4px)' },
+                  }}
+                >
+                  <Box sx={{ mb: 2 }}>{f.icon}</Box>
+                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                    {f.title}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
+                    {f.desc}
+                  </Typography>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Box
+        component="footer"
+        sx={{
+          mt: 'auto',
+          py: 4,
+          borderTop: `1px solid ${theme.palette.divider}`,
+          textAlign: 'center',
+          backgroundColor: theme.palette.background.paper,
+        }}
+      >
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          © {new Date().getFullYear()} TVSD Technologies. Next.js Enterprise Monorepo Architecture. All rights reserved.
+        </Typography>
+      </Box>
     </Box>
   );
 }

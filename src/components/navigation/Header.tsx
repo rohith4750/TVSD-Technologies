@@ -34,6 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const [layoutAnchor, setLayoutAnchor] = React.useState<null | HTMLElement>(null);
   const [themeAnchor, setThemeAnchor] = React.useState<null | HTMLElement>(null);
+  const [userAnchor, setUserAnchor] = React.useState<null | HTMLElement>(null);
 
   const layoutsList: { id: LayoutType; name: string }[] = [
     { id: 'layout1', name: 'Layout 1: Sidebar + Header' },
@@ -222,7 +223,10 @@ export const Header: React.FC<HeaderProps> = ({
         )}
 
         {/* User Profile */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1 }}>
+        <Box
+          onClick={(e) => setUserAnchor(e.currentTarget)}
+          sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1, cursor: 'pointer' }}
+        >
           <Avatar
             src={user.avatar}
             alt={user.name}
@@ -237,6 +241,23 @@ export const Header: React.FC<HeaderProps> = ({
             </Typography>
           </Box>
         </Box>
+
+        <Menu
+          anchorEl={userAnchor}
+          open={Boolean(userAnchor)}
+          onClose={() => setUserAnchor(null)}
+          PaperProps={{ sx: { minWidth: 180, borderRadius: 2.5 } }}
+        >
+          <MenuItem onClick={() => { setUserAnchor(null); window.location.href = '/dashboard'; }}>
+            Dashboard
+          </MenuItem>
+          <MenuItem onClick={() => { setUserAnchor(null); window.location.href = '/users'; }}>
+            Users Manager
+          </MenuItem>
+          <MenuItem onClick={() => { setUserAnchor(null); window.location.href = '/login'; }} sx={{ color: 'error.main' }}>
+            Sign Out
+          </MenuItem>
+        </Menu>
       </Box>
     </Box>
   );

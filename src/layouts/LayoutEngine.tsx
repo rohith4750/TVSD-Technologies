@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
 import { usePreferencesStore } from '@/store';
 import { Layout1SidebarHeader } from './Layout1SidebarHeader';
@@ -15,13 +16,21 @@ interface LayoutEngineProps {
 }
 
 export const LayoutEngine: React.FC<LayoutEngineProps> = ({ children }) => {
+  const pathname = usePathname();
   const { layout } = usePreferencesStore();
   const [preferencesOpen, setPreferencesOpen] = useState(false);
 
   const handleOpenPreferences = () => setPreferencesOpen(true);
   const handleClosePreferences = () => setPreferencesOpen(false);
 
+  // Landing page and Login page are standalone full-bleed experiences
+  const isStandalone = pathname === '/' || pathname === '/login';
+
   const renderLayout = () => {
+    if (isStandalone) {
+      return children;
+    }
+
     switch (layout) {
       case 'layout2':
         return (

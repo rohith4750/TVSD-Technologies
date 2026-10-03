@@ -107,14 +107,27 @@ interface AuthState {
   token: string;
   isAuthenticated: boolean;
   switchRole: (role: Role) => void;
+  setUser: (user: Partial<User>, token?: string) => void;
+  logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: CURRENT_USER,
-  token: 'jwt_mock_enterprise_token_2026',
+  token: 'tvsd_initial_token',
   isAuthenticated: true,
   switchRole: (role: Role) =>
     set((state) => ({
       user: { ...state.user, role },
     })),
+  setUser: (updatedUser: Partial<User>, token?: string) =>
+    set((state) => ({
+      user: { ...state.user, ...updatedUser },
+      ...(token ? { token } : {}),
+      isAuthenticated: true,
+    })),
+  logout: () =>
+    set({
+      isAuthenticated: false,
+      token: '',
+    }),
 }));

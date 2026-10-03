@@ -1,0 +1,60 @@
+// Prisma Schema for TVSD Technologies
+// Database: tvsd
+// Password: new password
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  OPERATOR
+  VIEWER
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String   @default("new password")
+  role       Role     @default(OPERATOR)
+  status     Status   @default(ACTIVE)
+  department String?
+  phone      String?
+  avatar     String?
+  lastLogin  DateTime @default(now()) @map("last_login")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  preferences UserPreference?
+
+  @@map("users")
+}
+
+model UserPreference {
+  id                   String  @id @default(uuid())
+  userId               String  @unique @map("user_id")
+  layout               String  @default("layout1")
+  theme                String  @default("corporate-light")
+  industry             String  @default("erp")
+  sidebarCollapsed     Boolean @default(false) @map("sidebar_collapsed")
+  density              String  @default("standard")
+  notificationsEnabled Boolean @default(true) @map("notifications_enabled")
+  breadcrumbsVisible   Boolean @default(true) @map("breadcrumbs_visible")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
