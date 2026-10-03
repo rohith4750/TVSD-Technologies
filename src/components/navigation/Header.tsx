@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({
   showMenuToggle = true,
 }) => {
   const theme = useTheme();
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { layout, setLayout, theme: currentTheme, setTheme, toggleSidebar, industry } = usePreferencesStore();
 
   const [layoutAnchor, setLayoutAnchor] = React.useState<null | HTMLElement>(null);
@@ -228,16 +228,18 @@ export const Header: React.FC<HeaderProps> = ({
           sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1, cursor: 'pointer' }}
         >
           <Avatar
-            src={user.avatar}
-            alt={user.name}
+            src={user?.avatar}
+            alt={user?.name || 'User'}
             sx={{ width: 34, height: 34, border: `2px solid ${theme.palette.primary.main}` }}
-          />
+          >
+            {user?.name ? user.name[0] : 'U'}
+          </Avatar>
           <Box sx={{ display: { xs: 'none', md: 'block' } }}>
             <Typography variant="body2" sx={{ fontWeight: 600, lineHeight: 1.1 }}>
-              {user.name}
+              {user?.name || 'Authenticated User'}
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
-              {user.role}
+              {user?.role || 'Operator'}
             </Typography>
           </Box>
         </Box>
@@ -254,7 +256,14 @@ export const Header: React.FC<HeaderProps> = ({
           <MenuItem onClick={() => { setUserAnchor(null); window.location.href = '/users'; }}>
             Users Manager
           </MenuItem>
-          <MenuItem onClick={() => { setUserAnchor(null); window.location.href = '/login'; }} sx={{ color: 'error.main' }}>
+          <MenuItem
+            onClick={() => {
+              setUserAnchor(null);
+              logout();
+              window.location.href = '/login';
+            }}
+            sx={{ color: 'error.main' }}
+          >
             Sign Out
           </MenuItem>
         </Menu>

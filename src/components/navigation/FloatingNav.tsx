@@ -126,10 +126,12 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({ onOpenPreferences }) =
             </Tooltip>
           )}
           <Avatar
-            src={user.avatar}
-            alt={user.name}
+            src={user?.avatar}
+            alt={user?.name || 'User'}
             sx={{ width: 32, height: 32, border: `2px solid ${theme.palette.primary.main}` }}
-          />
+          >
+            {user?.name ? user.name[0] : 'U'}
+          </Avatar>
         </Box>
       </Box>
     </Box>

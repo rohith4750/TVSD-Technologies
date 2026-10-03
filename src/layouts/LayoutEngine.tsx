@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
-import { usePreferencesStore } from '@/store';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useAuthStore, usePreferencesStore } from '@/store';
 import { Layout1SidebarHeader } from './Layout1SidebarHeader';
 import { Layout2TopNav } from './Layout2TopNav';
 import { Layout3MiniSidebar } from './Layout3MiniSidebar';
@@ -17,13 +19,46 @@ interface LayoutEngineProps {
 
 export const LayoutEngine: React.FC<LayoutEngineProps> = ({ children }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const { layout } = usePreferencesStore();
+  const { isAuthenticated } = useAuthStore();
   const [preferencesOpen, setPreferencesOpen] = useState(false);
 
   const handleOpenPreferences = () => setPreferencesOpen(true);
   const handleClosePreferences = () => setPreferencesOpen(false);
 
-  // Landing page and Login page are standalone full-bleed experiences
+  const isProtected = pathname.startsWith('/dashboard') || pathname.startsWith('/users');
+
+  // Strict route protection: user cannot land on protected pages unless logged in
+  useEffect(() => {
+    if (isProtected && !isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isProtected, isAuthenticated, router]);
+
+  // If unauthenticated and on protected route, block render and redirect
+  if (isProtected && !isAuthenticated) {
+    return (
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 2,
+          p: 3,
+        }}
+      >
+        <CircularProgress size={36} color="primary" />
+        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
+          🔒 Authentication required. Redirecting to Login...
+        </Typography>
+      </Box>
+    );
+  }
+
+  // Standalone pages: Landing page and Login page
   const isStandalone = pathname === '/' || pathname === '/login';
 
   const renderLayout = () => {

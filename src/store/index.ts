@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { IndustryPreset, LayoutType, Role, ThemeType, User, UserPreferences } from '@/types';
+import { IndustryPreset, LayoutType, Role, ThemeType, User, UserPreferences, UserRecord } from '@/types';
 
 export const DEFAULT_USER_PREFERENCES: UserPreferences = {
   userId: 'usr_enterprise_001',
@@ -73,61 +73,51 @@ export const useNotificationStore = create<NotificationState>((set) => ({
     set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) })),
 }));
 
-// Auth Store
-export const CURRENT_USER: User = {
-  id: 'usr-rohith-01',
-  name: 'Rohith Telidevara',
-  email: 'rohithtelidevara@gmail.com',
-  avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-  role: 'SUPER_ADMIN',
-  permissions: [
-    'users.create',
-    'users.read',
-    'users.update',
-    'users.delete',
-    'products.create',
-    'products.read',
-    'products.update',
-    'products.delete',
-    'orders.create',
-    'orders.read',
-    'orders.update',
-    'orders.delete',
-    'inventory.manage',
-    'billing.manage',
-    'system.settings',
-  ],
-  department: 'Executive Leadership',
-  status: 'ACTIVE',
-  createdAt: '2024-01-01T08:00:00Z',
-};
-
+// Auth Store (Persistent Session - NO hardcoded CURRENT_USER)
 interface AuthState {
-  user: User;
-  token: string;
+  user: UserRecord | null;
+  token: string | null;
   isAuthenticated: boolean;
-  switchRole: (role: Role) => void;
-  setUser: (user: Partial<User>, token?: string) => void;
+  setUser: (user: UserRecord, token?: string) => void;
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: CURRENT_USER,
-  token: 'tvsd_initial_token',
-  isAuthenticated: true,
-  switchRole: (role: Role) =>
-    set((state) => ({
-      user: { ...state.user, role },
-    })),
-  setUser: (updatedUser: Partial<User>, token?: string) =>
-    set((state) => ({
-      user: { ...state.user, ...updatedUser },
-      ...(token ? { token } : {}),
-      isAuthenticated: true,
-    })),
-  logout: () =>
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
       isAuthenticated: false,
-      token: '',
+      setUser: (user: UserRecord, token?: string) => {
+        if (typeof document !== 'undefined' && token) {
+          document.cookie = `tvsd_auth_token=${token}; path=/; max-age=86400; SameSite=Lax`;
+        }
+        if (typeof window !== 'undefined' && token) {
+          localStorage.setItem('tvsd_auth_token', token);
+        }
+        set({
+          user,
+          token: token || null,
+          isAuthenticated: true,
+        });
+      },
+      logout: () => {
+        if (typeof document !== 'undefined') {
+          document.cookie = 'tvsd_auth_token=; path=/; max-age=0; SameSite=Lax';
+        }
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('tvsd_auth_token');
+          localStorage.removeItem('tvsd_auth_session');
+        }
+        set({
+          user: null,
+          token: null,
+          isAuthenticated: false,
+        });
+      },
     }),
-}));
+    {
+      name: 'tvsd_auth_session',
+    }
+  )
+);
