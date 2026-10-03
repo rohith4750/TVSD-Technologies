@@ -26,16 +26,16 @@ export default function LoginPage() {
   const { setUser } = useAuthStore();
   const { showToast } = useNotificationStore();
 
-  const [email, setEmail] = useState('alex.wright@tvsd.io');
-  const [password, setPassword] = useState('new password');
+  const [email, setEmail] = useState('rohithtelidevara@gmail.com');
+  const [password, setPassword] = useState('Rohith@143');
   const [role, setRole] = useState<Role>('SUPER_ADMIN');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleRoleSelect = (selectedRole: Role, defaultEmail: string) => {
+  const handleRoleSelect = (selectedRole: Role, defaultEmail: string, defaultPassword: string = 'new password') => {
     setRole(selectedRole);
     setEmail(defaultEmail);
-    setPassword('new password');
+    setPassword(defaultPassword);
     setErrorMessage(null);
   };
 
@@ -165,17 +165,17 @@ export default function LoginPage() {
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
             {[
-              { r: 'SUPER_ADMIN' as Role, email: 'alex.wright@tvsd.io', label: 'Super Admin' },
-              { r: 'ADMIN' as Role, email: 'sarah.chen@tvsd.io', label: 'Administrator' },
-              { r: 'MANAGER' as Role, email: 'marcus.v@tvsd.io', label: 'Operations Lead' },
+              { r: 'SUPER_ADMIN' as Role, email: 'rohithtelidevara@gmail.com', pass: 'Rohith@143', label: 'Rohith (Super Admin)' },
+              { r: 'ADMIN' as Role, email: 'sarah.chen@tvsd.io', pass: 'new password', label: 'Administrator' },
+              { r: 'MANAGER' as Role, email: 'marcus.v@tvsd.io', pass: 'new password', label: 'Operations Lead' },
             ].map((item) => (
               <Chip
                 key={item.r}
                 label={item.label}
                 clickable
-                color={role === item.r ? 'primary' : 'default'}
-                variant={role === item.r ? 'filled' : 'outlined'}
-                onClick={() => handleRoleSelect(item.r, item.email)}
+                color={email === item.email ? 'primary' : 'default'}
+                variant={email === item.email ? 'filled' : 'outlined'}
+                onClick={() => handleRoleSelect(item.r, item.email, item.pass)}
                 sx={{ fontSize: '0.75rem', fontWeight: 600 }}
               />
             ))}

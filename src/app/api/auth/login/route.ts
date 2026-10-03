@@ -23,8 +23,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify password (configured as 'new password')
-    if (user.password !== password && password !== 'new password') {
+    // Verify password against database record
+    if (user.password !== password) {
       return NextResponse.json(
         { success: false, message: 'Invalid password credentials' },
         { status: 401 }

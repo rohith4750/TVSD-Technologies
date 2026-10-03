@@ -12,8 +12,21 @@ export const pool = new Pool({
   connectionTimeoutMillis: 2500,
 });
 
-// Seed data with password "new password"
+// Seed data with default users
 export const INITIAL_DB_USERS: (UserRecord & { password: string })[] = [
+  {
+    id: 'usr-rohith-01',
+    name: 'Rohith Telidevara',
+    email: 'rohithtelidevara@gmail.com',
+    password: 'Rohith@143',
+    role: 'SUPER_ADMIN',
+    status: 'ACTIVE',
+    department: 'Executive Leadership',
+    phone: '+91 98765 43210',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80',
+    lastLogin: '2026-10-03T18:30:00Z',
+    createdAt: '2024-01-01T08:00:00Z',
+  },
   {
     id: 'usr-001',
     name: 'Alexander Wright',

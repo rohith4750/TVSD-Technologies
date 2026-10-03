@@ -75,10 +75,10 @@ export const useNotificationStore = create<NotificationState>((set) => ({
 
 // Auth Store
 export const CURRENT_USER: User = {
-  id: 'usr_super_01',
-  name: 'Alexander Wright',
-  email: 'alex.wright@tvsd.io',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+  id: 'usr-rohith-01',
+  name: 'Rohith Telidevara',
+  email: 'rohithtelidevara@gmail.com',
+  avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
   role: 'SUPER_ADMIN',
   permissions: [
     'users.create',
@@ -97,9 +97,9 @@ export const CURRENT_USER: User = {
     'billing.manage',
     'system.settings',
   ],
-  department: 'Executive Office',
+  department: 'Executive Leadership',
   status: 'ACTIVE',
-  createdAt: '2024-01-15T08:00:00Z',
+  createdAt: '2024-01-01T08:00:00Z',
 };
 
 interface AuthState {
