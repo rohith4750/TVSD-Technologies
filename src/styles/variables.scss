@@ -1,0 +1,30 @@
+// Responsive Breakpoints
+$breakpoint-mobile: 575px;
+$breakpoint-tablet: 767px;
+$breakpoint-laptop: 1023px;
+$breakpoint-desktop: 1439px;
+
+// Layout Dimensions
+$sidebar-width: 270px;
+$sidebar-mini-width: 78px;
+$header-height: 68px;
+$top-nav-height: 64px;
+$floating-nav-height: 64px;
+
+// Transitions
+$transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+// Z-Indices
+$z-sidebar: 1200;
+$z-header: 1100;
+$z-floating: 1150;
+$z-modal: 1300;
+$z-toast: 1400;
+
+// Border Radius
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-full: 9999px;

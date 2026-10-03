@@ -1,0 +1,46 @@
+@use './variables' as *;
+
+// Glassmorphism effect
+@mixin glass($blur: 16px, $opacity: 0.75) {
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+// Flex center shorthand
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Flex between shorthand
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Custom Scrollbar
+@mixin custom-scrollbar($width: 6px, $thumb-color: rgba(148, 163, 184, 0.4)) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $radius-full;
+    &:hover {
+      background: rgba(148, 163, 184, 0.7);
+    }
+  }
+}
+
+// Truncate Single Line
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

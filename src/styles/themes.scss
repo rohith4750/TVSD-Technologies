@@ -1,0 +1,84 @@
+// Theme Tokens and Defaults
+:root {
+  --color-primary: #1e40af;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1e3a8a;
+  --color-primary-contrast: #ffffff;
+  --color-secondary: #0ea5e9;
+  --color-bg-default: #f8fafc;
+  --color-bg-paper: #ffffff;
+  --color-bg-subtle: #f1f5f9;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-border: #e2e8f0;
+  --color-divider: #f1f5f9;
+  --card-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+// Corporate Dark Theme
+[data-theme='corporate-dark'] {
+  --color-primary: #38bdf8;
+  --color-primary-light: #7dd3fc;
+  --color-primary-dark: #0284c7;
+  --color-primary-contrast: #082f49;
+  --color-secondary: #818cf8;
+  --color-bg-default: #0b0f19;
+  --color-bg-paper: #111827;
+  --color-bg-subtle: #1e293b;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-border: #1f2937;
+  --color-divider: #1f2937;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+// Minimal Theme
+[data-theme='minimal'] {
+  --color-primary: #09090b;
+  --color-primary-light: #27272a;
+  --color-primary-dark: #000000;
+  --color-primary-contrast: #ffffff;
+  --color-secondary: #71717a;
+  --color-bg-default: #fafafa;
+  --color-bg-paper: #ffffff;
+  --color-bg-subtle: #f4f4f5;
+  --color-text-primary: #09090b;
+  --color-text-secondary: #52525b;
+  --color-border: #e4e4e7;
+  --color-divider: #f4f4f5;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+// Healthcare Blue Theme
+[data-theme='healthcare-blue'] {
+  --color-primary: #0891b2;
+  --color-primary-light: #22d3ee;
+  --color-primary-dark: #0e7490;
+  --color-primary-contrast: #ffffff;
+  --color-secondary: #14b8a6;
+  --color-bg-default: #f0fdfa;
+  --color-bg-paper: #ffffff;
+  --color-bg-subtle: #ccfbf1;
+  --color-text-primary: #134e4a;
+  --color-text-secondary: #0f766e;
+  --color-border: #99f6e4;
+  --color-divider: #e6fffa;
+  --card-shadow: 0 4px 14px rgba(8, 145, 178, 0.08);
+}
+
+// Modern Gradient Theme
+[data-theme='modern-gradient'] {
+  --color-primary: #a855f7;
+  --color-primary-light: #c084fc;
+  --color-primary-dark: #7e22ce;
+  --color-primary-contrast: #ffffff;
+  --color-secondary: #ec4899;
+  --color-bg-default: #0c071e;
+  --color-bg-paper: #170f38;
+  --color-bg-subtle: #22164f;
+  --color-text-primary: #f5f3ff;
+  --color-text-secondary: #c4b5fd;
+  --color-border: #3b2575;
+  --color-divider: #2d1b5a;
+  --card-shadow: 0 8px 32px rgba(168, 85, 247, 0.15);
+}

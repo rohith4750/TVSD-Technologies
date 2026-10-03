@@ -1,0 +1,47 @@
+@use './variables' as *;
+@use './mixins' as *;
+@use './responsive' as *;
+@use './typography' as *;
+@use './themes' as *;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-primary);
+  font-family: var(--font-poppins);
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// Custom Scrollbar
+body {
+  @include custom-scrollbar;
+}
+
+// Layout Transition Animations
+.fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

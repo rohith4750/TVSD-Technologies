@@ -1,0 +1,50 @@
+@use './variables' as *;
+
+// Mobile: 0–575px
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+// Tablet: 576–767px
+@mixin tablet {
+  @media (min-width: #{$breakpoint-mobile + 1}) and (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+// Tablet and down
+@mixin tablet-down {
+  @media (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+// Laptop: 768–1023px
+@mixin laptop {
+  @media (min-width: #{$breakpoint-tablet + 1}) and (max-width: #{$breakpoint-laptop}) {
+    @content;
+  }
+}
+
+// Laptop and down
+@mixin laptop-down {
+  @media (max-width: #{$breakpoint-laptop}) {
+    @content;
+  }
+}
+
+// Desktop: 1024–1439px
+@mixin desktop {
+  @media (min-width: #{$breakpoint-laptop + 1}) and (max-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// Large Desktop: 1440px+
+@mixin large-desktop {
+  @media (min-width: #{$breakpoint-desktop + 1}) {
+    @content;
+  }
+}
